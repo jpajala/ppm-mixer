@@ -103,7 +103,7 @@
 #define PULSE_FULL_LEN_MIN 2000
 #define PULSE_FULL_LEN_MAX 4350
 #define COMP_INTERVAL_MS 20 // 20 ms == RC control interval
-
+#define PPM_MAP_INVALID_IDX (0xFF)
 
 #define NUM_PPM_PULSES_GRAUPNER_MC_12 (7)
 #define NUM_PPM_PULSES_FATSHARK_HEADTRACK (8)
@@ -182,8 +182,29 @@ inline void addPulseToArray(const uint8_t* ppmMap, uint8_t* idx, bool* validStre
 {
   // is input capture timer pulse, or change interrupt pulse
   
-  uint8_t newIdx = (ppmMap == NULL?*idx:ppmMap[*idx]);
-  
+  uint8_t newIdx;
+  if(ppmMap == NULL) 
+  {
+  	// For the Input1 stream, i.e. the graupner radio
+  	// do not change the signal index.
+    newIdx = *idx;
+  }
+  else
+  {
+  	// For the Input2 stream, i.e. the fatshark / headtracker / ...
+  	// check the index in output stream from the ppmMap.
+  	// Also, check that the idx is small enough.
+  	
+    if(*idx < expectedPulsesPerStream)
+    {
+      newIdx = ppmMap[*idx];
+    }
+    else
+    {
+      PRINTLN("W1"); // Warning 1: invalid number of I2 pulses received.
+      newIdx = PPM_MAP_INVALID_IDX;
+    }
+  }
   // if the full pulse length exceeds a certain value, we know that this is the "reset" pulse.
   if(pf > PPM_STREAM_RESET_FULL_TIMEOUT)
   {
@@ -223,8 +244,8 @@ inline void addPulseToArray(const uint8_t* ppmMap, uint8_t* idx, bool* validStre
       else // this is an I2 pulse, which may be overriding an I1 pulse
       {
         // check if the I2 stream is valid
-        // and that we care this pulse (new index not 0xFF)
-        if(i2_validStream  && (newIdx != 0xFF))
+        // and that we care this pulse (new index not PPM_MAP_INVALID_IDX)
+        if(i2_validStream  && (newIdx != PPM_MAP_INVALID_IDX))
         {
           canCopy = true;
           // mask the bit that the I2 overrides from the I1 channels, to not allow I1 to re-write it
@@ -361,7 +382,7 @@ inline void checkInputCapture()
 // 
 inline void checkOutputCompare()
 {
-  static bool pulseStarted = false;
+  //static bool pulseStarted = false;
   static uint8_t pulseIdx = NUM_PPM_PULSES_OUTPUT;
   static uint16_t nextPulseT = 0;
   static uint16_t oldNextPulseT = 0;
