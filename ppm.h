@@ -43,6 +43,7 @@
 
 #define PPM_VALIDITY_MAX (30) // this is about 1 second of hysteresis
 #define COMP_INTERVAL_MS 20 // 20 ms == RC control interval
+#define PPM_MAP_INVALID_IDX (0xFF)
 
 //
 // TBD: should these numbers be in settings?

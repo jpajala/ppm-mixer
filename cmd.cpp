@@ -147,16 +147,8 @@ void Cmd::handleCmd()
 // Command callback functions:
 bool saveSettings(char** params)
 {
-	//char* p;
-	//int i = 0;
+	(void)params; // remove "unused parameter" warning
 	Serial.println("In Save Settings");
-	//while((p = *params) && i < NUM_PARAMS_MAX)
-	//{
-		//Serial.print("Param:");
-		//Serial.println(p);
-		//params++;
-		//i++;
-	//}
 
 	if(settings.save())
 	{
@@ -167,8 +159,7 @@ bool saveSettings(char** params)
 	{
 		Serial.println("Save FAILED!");
 	}
-		return false;
-	
+	return false;
 }
 
 void printChannelMap()
@@ -193,7 +184,7 @@ void printChannelMap()
 bool printSettings(char** params)
 {
 	int i;
-	Serial.println("huh, all of it?");
+	(void)params; // remove "unused parameter" warning
 	MixerSettings& data = settings.data;
 	
 	Serial.print("size: ");
@@ -321,6 +312,7 @@ bool channelMin(char** params) // channel negative limit (minimum)
 bool help(char** params)
 {
 	uint8_t i;
+	(void)params; // remove "unused parameter" warning
 	for(i = 0; i < sizeof(cmdEntries)/sizeof(cmdEntries[0]); i++)
 	{
 		Serial.println(cmdEntries[i].cmd);
