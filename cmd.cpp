@@ -1,6 +1,12 @@
-// 
-// 
-// 
+///////////////////////////////////////////////////////////////////////////////
+//
+//
+//                  PPM Mixer
+//
+//
+//                  (c) Jussi Pajala 2016-2017
+//
+///////////////////////////////////////////////////////////////////////////////
 
 #include "settings.h"
 #include "ppm.h"
@@ -24,7 +30,7 @@ bool channelMax(char** params);
 bool channelMin(char** params);
 bool help(char** params);
 
-CmdEntry cmdEntries[] = 
+static const CmdEntry cmdEntries[] = 
 {
 	{ "save", saveSettings },
 	{ "printset", printSettings},
@@ -208,20 +214,20 @@ bool printSettings(char** params)
 	return true;
 }
 
+/**
+ * View or Change mapping of the input channels to output stream.
+ * 
+ * The mapping tells where input2 aka fatshark signals are mapped in the output stream.
+ * Example commands strings:
+ * 
+ * "map"               print current output mapping
+ * "map 6 5"           map input channel 6 to output channel 5
+ * "map 7 255"         remove input channel 7 from output PPM stream
+ */
 bool map(char** params)
 {
 	unsigned int from, to;
 
-int i = 0;	
-char* p;
-char **pp = params;
-	while((p = *pp) && i < NUM_PARAMS_MAX)
-	{
-		Serial.print("Param:");
-		Serial.println(p);
-		pp++;
-		i++;
-	}	
 	if(params[0] == NULL || params[1] == NULL)
 	{
 		Serial.println("USAGE: map [from] [to] (i2idx:outidx)");
@@ -246,6 +252,20 @@ char **pp = params;
 	return false;
 }
 
+/**
+ * Common function for parsing both min and max channel settings.
+ * Parses the input, and saves it to settings structure.
+ * Channel index value must be 1..8.
+ * Channel min and max value is in milliseconds.
+ * 
+ * "c-" or "c+"           get the usage help.
+ * "c- 4 1000"            set output stream channel 4 minimum value = 1000
+ * "c+ 7 2000"            set output stream channel 7 max value = 2000
+ * 
+ * 
+ * @param params user inputted parameters (channel + value)
+ * @param min true if this is channel minimum, false if channel maximum value
+ */
 bool channelMinMax(char** params, bool min)
 {
 	uint16_t ch = -1;

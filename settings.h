@@ -11,13 +11,13 @@
 
 #define SETTINGS_PPM_INPUT_CHANNELS (8)
 #define SETTINGS_PPM_OUTPUT_CHANNELS (8)
+
 typedef struct  
 {
 	uint32_t size;										// size of this structure
 	uint8_t channelMap[SETTINGS_PPM_INPUT_CHANNELS];
 	uint16_t ppmOuputMin[SETTINGS_PPM_OUTPUT_CHANNELS];
 	uint16_t ppmOuputMax[SETTINGS_PPM_OUTPUT_CHANNELS];
-	
 	uint32_t crc;										// this should be the last item
 } MixerSettings;
 

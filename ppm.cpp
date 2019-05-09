@@ -1,6 +1,12 @@
-// 
-// 
-// 
+///////////////////////////////////////////////////////////////////////////////
+//
+//
+//                  PPM Mixer
+//
+//
+//                  (c) Jussi Pajala 2016-2017
+//
+///////////////////////////////////////////////////////////////////////////////
 
 #include "ppm.h"
 #include "settings.h"
@@ -348,6 +354,10 @@ inline void checkOutputCompare()
 		interrupts();
 
 		nextPulseT = oldNextPulseT + 200;
+		// set up the total length of the output pulse stream. This should be about 20ms.
+		// when setting a new pulse timers, we remove the length of that pulse from total time.
+		// The reset pulse length is the time left after all the pulses are generated. 
+		// The reset pulse should be at least about 4ms.
 		endPulseLengthLeft = PPM_PULSE_STREAM_TOTAL_TIMEOUT - (NUM_PPM_PULSES_OUTPUT * (PPM_MIDLLE_TIMEOUT + PPM_PULSE_LOW_TIMEOUT)); // compute length of the reset pulse
 
 		return;

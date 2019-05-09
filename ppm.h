@@ -39,7 +39,7 @@
 #define PPM_PULSE_LOW_TIMEOUT (800)             // actual length of the separation pulse is about 400us - 800timer ticks
 #define PPM_STREAM_RESET_FULL_TIMEOUT (5000)    // The longer pulse after the normal control pulses, that resets the index to 0 - 2500us = 5000 timer ticks
 #define PPM_PULSE_STREAM_TOTAL_TIMEOUT (40000)  // 20000us = 40000 timer ticks
-#define PPM_MIDLLE_TIMEOUT (2200) // 0.7..1.5 => middle = 1.1ms pulse, which counts for middle value
+#define PPM_MIDLLE_TIMEOUT (2200) // 0.6..1.6 => middle = 1.1ms pulse, which counts for middle value
 
 #define PPM_VALIDITY_MAX (30) // this is about 1 second of hysteresis
 #define COMP_INTERVAL_MS 20 // 20 ms == RC control interval

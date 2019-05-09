@@ -1,18 +1,10 @@
-#include "cmd.h"
-#include "ppm.h"
-#include <EEPROMex.h>
-#include <EEPROMVar.h>
-
-
-#include "settings.h"
-
-
+///////////////////////////////////////////////////////////////////////////////
 //
 //
 //                  PPM Mixer
 //                  
 //                  
-//                  (c) Jussi Pajala 2016
+//                  (c) Jussi Pajala 2016-2017
 //
 //
 // This Arduino software is intended to mix two ppm streams into one.
@@ -73,6 +65,11 @@
 // mode.
 // However, removing the Fatshark input will just disable overriding the
 // Graupner radio signals of channels 6 and 7.
+//
+///////////////////////////////////////////////////////////////////////////////
+#include "cmd.h"
+#include "ppm.h"
+#include "settings.h"
 
 
 
