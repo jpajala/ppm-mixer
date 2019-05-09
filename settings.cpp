@@ -10,10 +10,11 @@
 static const MixerSettings factorySettings = 
 {
 	sizeof(MixerSettings), // size;										// size of this structure
-	{0xFF, 0xFF, 0xFF, 0xFF, 5, 6, 7, 0xFF, },	// uint8_t channelMap[SETTINGS_PPM_INPUT_CHANNELS];
+	{0xFF, 0xFF, 0xFF, 0xFF, 5, 6, 7, 0xFF, },	      // uint8_t channelMap[SETTINGS_PPM_INPUT_CHANNELS];
 	{1200, 1200, 1200, 1200,1200, 1200, 1200, 1200},	// uint16_t ppmOuputMin[SETTINGS_PPM_OUTPUT_CHANNELS];
 	{3200, 3200, 3200, 3200, 3200, 3200, 3200, 3200},	// uint16_t ppmOuputMax[SETTINGS_PPM_OUTPUT_CHANNELS];
-	0	// uint32_t crc;										// this should be the last item
+  {0, 0, 0, 0, 0, 0, 0, 0},                         // int16_t ppmTrim[SETTINGS_PPM_OUTPUT_CHANNELS];
+	0	// uint32_t crc;										            // this should be the last item
 };
 
 Settings::Settings()

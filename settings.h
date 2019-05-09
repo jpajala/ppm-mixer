@@ -18,6 +18,7 @@ typedef struct
 	uint8_t channelMap[SETTINGS_PPM_INPUT_CHANNELS];
 	uint16_t ppmOuputMin[SETTINGS_PPM_OUTPUT_CHANNELS];
 	uint16_t ppmOuputMax[SETTINGS_PPM_OUTPUT_CHANNELS];
+	int16_t ppmTrim[SETTINGS_PPM_OUTPUT_CHANNELS];
 	uint32_t crc;										// this should be the last item
 } MixerSettings;
 

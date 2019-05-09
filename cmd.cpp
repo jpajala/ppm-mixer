@@ -28,6 +28,7 @@ bool printSettings(char** params);
 bool map(char** params);
 bool channelMax(char** params);
 bool channelMin(char** params);
+bool channelTrim(char** params);
 bool help(char** params);
 
 static const CmdEntry cmdEntries[] = 
@@ -37,6 +38,7 @@ static const CmdEntry cmdEntries[] =
 	{ "map", map},
 	{ "c+", channelMax}, // channel positive limit (maximum) 
 	{ "c-", channelMin}, // channel negative limit (minimum) 
+  { "trim", channelTrim},
 	{ "help", help},
 };
 
@@ -328,6 +330,51 @@ bool channelMin(char** params) // channel negative limit (minimum)
 	return channelMinMax(params, true);	
 }
 
+bool channelTrim(char** params) // channel negative limit (minimum)
+{
+  uint16_t ch = -1;
+  int16_t value = -1;
+  bool ok = true;
+
+  if(params[0] == NULL)
+  {
+    Serial.print("Usage: ");
+    Serial.print(cmd.getCurrCmd());
+    Serial.println(" [ch] [value] - value optional, set to zero if omitted.");    
+    ok = false;
+  }
+  if(ok)
+  {
+    ch = atoi(params[0])-1;
+    ok = ch < SETTINGS_PPM_OUTPUT_CHANNELS;
+    Serial.print("ch: ");Serial.println(ch+1);
+  }
+  if(ok)
+  {
+    if(params[1] != NULL)
+    {
+      value = atoi(params[1]);
+      ok = (value > -900) && (value < 900);
+      Serial.println(ok);
+    }
+    else
+    {
+      value = ppm_ChValUnFilt(ch);
+    }
+    Serial.print("value ");Serial.println(value);
+  }
+  if(ok)
+  {
+    Serial.print("Channel ");
+    Serial.print(ch+1);
+    Serial.print(" value ");
+    Serial.print(value);
+    
+    settings.data.ppmTrim[ch] = value;
+  }
+  return ok;
+ 
+}
 // Command callback functions:
 bool help(char** params)
 {

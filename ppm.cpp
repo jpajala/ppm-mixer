@@ -208,7 +208,7 @@ inline void addPulseToArray(const uint8_t* ppmMap, uint8_t* idx, bool* validStre
 				{
 					// copy given pulse time to the output timing array
 					ppmOutputUnFilt[newIdx] = pt;
-					ppmOutputTiming[newIdx] = LIMIT_MINMAX(settings.data.ppmOuputMin[newIdx], settings.data.ppmOuputMax[newIdx], pt);
+					ppmOutputTiming[newIdx] = LIMIT_MINMAX(settings.data.ppmOuputMin[newIdx], settings.data.ppmOuputMax[newIdx], pt + settings.data.ppmTrim[newIdx]);
 				}
 				else
 				{
